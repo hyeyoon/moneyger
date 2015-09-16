@@ -1,0 +1,2 @@
+module MoneygerHelper
+end

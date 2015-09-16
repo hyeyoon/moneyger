@@ -1,0 +1,30 @@
+<div class="submain">  
+<%= render :partial => "moneyger/navbar" %>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+
+        <h2>회원가입</h2>
+        
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <%= f.error_notification %>
+        
+          <div class="form-inputs">
+            <%= f.input :email, required: true, autofocus: true %>
+            <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
+            <%= f.input :password_confirmation, required: true %>
+          </div>
+        
+          <div class="form-actions">
+            <%= f.button :submit, "회원가입" %>
+          </div>
+        <% end %>
+        
+        <%= render "devise/shared/links" %>
+        
+        
+      </div><!-- END col-md-6 col-md-offset-3 -->
+    </div><!-- END row -->
+  </div><!-- END container -->
+</div><!--END submain -->

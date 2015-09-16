@@ -1,0 +1,184 @@
+body {
+	font-family: 'KoPub Dotum';
+  	font-style: normal;
+  	font-weight: 300;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 850px !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .btn-group {
+        margin-top: 150px !important; 
+        margin-left: 74% !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .btn-group {
+        margin-top: 150px; 
+        margin-left: 70%; 
+    }
+}
+
+.nav>li>p {
+    position: relative;
+    display: block;
+    padding: 15px 15px;
+}
+
+.nav>li>p>a {
+    color: #777;
+    text-decoration: none;
+}
+
+.nav>li>p>a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.groupname {
+    font-family: 'KoPub Dotum';
+  	font-style: normal;
+  	font-weight: bold;
+}
+
+.main {
+    background-image: url(); 
+}
+
+.mainpage {
+    background-color: #ffffff;
+}
+
+
+.logo {
+    width: 140px;
+    height: auto;
+    margin-top: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.grouplist {
+	margin-top: 10px;
+}
+
+.account {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.accountborder {
+	border-left-color: #FFB600;
+}
+
+.chartalign {
+  position: relative;
+  
+  
+}
+
+.pigmoney {
+	text-align: right;
+}
+
+
+.nav-height {
+	height: 55px;
+}
+
+.display {
+    margin-top: -5px;
+}
+
+.plusminusbtn {
+	width: 20px;
+	height: auto;
+}
+
+.btn-align {
+  float: right;
+  margin-top: 35px;
+}
+
+.optionpng {
+  width: 40px; 
+  height: auto;
+  float: right;
+}
+
+.panel-height {
+  height: 170px;
+}
+
+.panel-make:hover {
+  opacity: 0.8; 
+}
+
+.imghover:hover {
+  opacity: 0.5; 
+}
+
+#money {
+	padding-bottom: 20px;
+}
+
+
+/* KoPub Dotum */
+@font-face {
+  font-family: 'KoPub Dotum';
+  font-style: normal;
+  font-weight: 300;
+  src: url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Light.eot);
+  src: url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Light.eot?#iefix) format('embedded-opentype'),
+       url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Light.woff) format('woff'),
+       url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Light.ttf) format('truetype');
+}
+@font-face {
+ font-family: 'KoPub Dotum';
+ font-style: normal;
+ font-weight: 400;
+ src: url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Medium.eot);
+ src: url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Medium.eot?#iefix) format('embedded-opentype'),
+ url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Medium.woff) format('woff'),
+ url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Medium.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'KoPub Dotum';
+  font-style: normal;
+  font-weight: 700;
+  src: url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Bold.eot);
+  src: url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Bold.eot?#iefix) format('embedded-opentype'),
+       url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Bold.woff) format('woff'),
+       url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Bold.ttf) format('truetype');
+}
+
+
+
+/*.sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+    height: 1000px;
+} */
+/*추후수정*/
+	
+// Place all the styles related to the moneyger controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+

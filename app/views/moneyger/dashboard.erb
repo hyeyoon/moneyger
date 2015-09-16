@@ -1,0 +1,147 @@
+<!-- 전체 그리드 -->
+<div class = "main"> 
+  <div class="container maxmain">
+    <div class="row">
+      <div class="mainpage"> 
+        <!--navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top nav-height">
+          <div class="container">
+            <div class="navbar-header">
+              <a class="navbar-brand display" href="/"><img src="/image/moneyger.png" style="width: 140px; height: auto;"></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <!-- navbar content -->
+              <ul class="nav navbar-nav navbar-right">
+                <li>
+                  <!-- group list -->
+                  <div class="dropdown grouplist">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                      그룹리스트
+                      <span class="caret"></span>
+                    </button>
+                    <!-- 그룹 이름 코드 들어가야 하는 곳 -->
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                      <% @g.each do |g|%>
+                      <li><a href="#"><%=g.gname%><br></a></li>
+                      <%end%>
+      
+                    </ul>
+                  </div>
+                </li> <!-- 아래에 user로그인 시 username 이 뜨고 로그아웃 버튼이 뜨게 -->
+  
+                  <% if user_signed_in? %>
+                    <li><p><%= current_user.email %></p></li>
+                    <li><p><%= link_to "로그아웃", destroy_user_session_path, method: :get, data: { confirm: "로그아웃 하시겠습니까?" } %></p></li>
+                      <% else %>
+                    <li><p><%= link_to "로그인", new_user_session_path %></p></li>
+                  <% end %>
+              
+                <li>
+                  <a href="/users/sign_up">회원가입</a>
+                </li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1 class="page-header">마이페이지
+      <a href="/user/edit"><img src ="/image/option.png" class="optionpng"></a>
+    </h1>
+    
+    <div class="row">
+      <div class="col-sm-6 col-md-4">
+        <div class="panel panel-default panel-height panel-make" style="background-color: #FFB600; cursor:pointer;" type="button" data-toggle="modal" data-target="#addgroups">
+          <img src="/image/plus_1.png" class="imghover" style="width: 70px; height: auto; margin-left: 37%; margin-top: 17%;">
+          <p style="text-align: center; color: white; margin-top: 10px;">그룹을 추가해 주세요.</p>
+        </div>
+      </div>
+      
+      <!--이거가 하나씩 -->
+      <% @u.each do |user| %>
+      <% user.ggs.each do |g|%>
+      <div class="col-sm-6 col-md-4">
+        <div class="panel panel-default panel-height">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <%=g.gname%>
+              <input type="hidden" name="user_id" value="<%=user.id%>">
+              </h3>
+          </div>
+          <div class="panel-body">
+            <p>그룹 설명</p>
+            <a href="/" type="button" class="btn btn-default btn-align">열기</a>
+          </div>
+        </div>
+      </div>
+      <%end%>
+      <%end%>
+      <!-- 여기까지 -->
+        
+      </div>
+  
+    </div>
+  </div>  
+  
+</div> <!-- main -->
+
+
+
+
+
+
+
+
+<!-- 그룹추가 모달 -->
+  <div class="container">
+    <div class="row">
+      <div class="modal fade" id="addgroups" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <!-- modal head -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">그룹 추가</h4>
+            </div>
+            <!-- modal body 그룹 이름값 넣기 -->
+            <div class="modal-body">
+              <!-- 추가할 그룹 입력창 -->
+              <form action="/moneyger/test" type="POST">
+                그룹이름 : <input type="text" name="gname"><br><br>
+                
+                총무: <input type="text" name="leader"><br><br>
+                
+                계좌번호: <input type="integer" name="account_number"><br><br>
+                
+                예치금 :<input type="int" name="total"><br><br>
+                <input type="submit" value="등록">
+                
+                </form>
+                <% @g.each do |g|%>
+                <a href="/moneyger/a1/<%= g.id%>">차감</a><br>
+                <!--<a href="/moneyger/a2/<%= g.id%>">전체차감</a><br>-->
+                그룹이름:<%=g.gname%><br>
+                총무: <%=g.leader%> <br>
+                계좌번호: <%=g.account_number%> <br>
+                예치금:<%=g.total%><br>
+                
+                <%end%><br><br>
+              
+              
+              
+              
+            </div>
+            <div class="modal-footer">
+              <!-- 취소 버튼 -->
+              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+              <!-- 저장 버튼 데이터 연결 -->
+              <button type="button" class="btn btn-primary">저장하기</button>
+            </div><!-- END modal-footer -->
+          </div><!-- END modal-content -->
+        </div><!-- END modal-dialog -->
+      </div><!-- END modal-fade -->
+    </div><!-- END modal-row -->
+  </div><!-- END modal-container -->

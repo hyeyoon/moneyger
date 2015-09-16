@@ -1,0 +1,17 @@
+<form action="/moneyger/board" type="POST">
+    <input type="hidden" name="gg_id" value="<%= @group.id %>">
+    <br><p>언제: <input type="text" name="date" id="datepicker"></p>
+    종류:
+    <select name="board_type">   
+        <option value="ONLY">개별</option>
+    </select>
+    <br>누가: 
+    <select name="member">
+        <% @group.members.each do |member| %>
+            <option value="<%= member.id %>"><%= member.tname %></option>
+        <% end %>
+    </select>
+    <br>어디에:<input type="text" name="content">
+    <br>얼마나:<input type="text" name="howmuch">
+    <input type="submit" value="완료">
+</form>
