@@ -3,145 +3,89 @@
   <div class="container maxmain">
     <div class="row">
       <div class="mainpage"> 
-        <!--navbar -->
-        <nav class="navbar navbar-default navbar-fixed-top nav-height">
-          <div class="container">
-            <div class="navbar-header">
-              <a class="navbar-brand display" href="/"><img src="/image/moneyger.png" style="width: 140px; height: auto;"></a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-              <!-- navbar content -->
-              <ul class="nav navbar-nav navbar-right">
-                <li>
-                  <!-- group list -->
-                  <div class="dropdown grouplist">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                      그룹리스트
-                      <span class="caret"></span>
-                    </button>
-                    <!-- 그룹 이름 코드 들어가야 하는 곳 -->
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                      <% @g.each do |g|%>
-                      <li><a href="#"><%=g.gname%><br></a></li>
-                      <%end%>
-      
-                    </ul>
-                  </div>
-                </li> <!-- 아래에 user로그인 시 username 이 뜨고 로그아웃 버튼이 뜨게 -->
-  
-                  <% if user_signed_in? %>
-                    <li><p><%= current_user.email %></p></li>
-                    <li><p><%= link_to "로그아웃", destroy_user_session_path, method: :get, data: { confirm: "로그아웃 하시겠습니까?" } %></p></li>
-                      <% else %>
-                    <li><p><%= link_to "로그인", new_user_session_path %></p></li>
-                  <% end %>
-              
-                <li>
-                  <a href="/users/sign_up">회원가입</a>
-                </li>
-              </ul>
-            </div><!--/.nav-collapse -->
-          </div>
-        </nav>
+        <%= render partial: "navbar" %>
       </div>
     </div>
   </div>
-  
   <!-- Main -->
-      <div class="container">
-      <!--돈관리 부분 -->
-        <div class="row">
-          <div class="col-sm-6 col-md-6">
-          <!-- 그룹 이름 & 총무 계좌 --> 
-            <!-- 멤버 추가 버튼 -->
-            <h1 class="groupname"> <% @g.each do |g|%><%=g.gname%><%end%> &nbsp<button type="button" class="btn btn-warning btn-class" style="width: 60px; height: auto; font-size: 10px;" data-toggle="modal" data-target="#addmembers">멤버추가</button></h1>
-              <!-- 테두리 박스 총무 계좌 -->
-              <div class="account accountborder">
-                <h4><strong>총무: <% @g.each do |g|%><%=g.leader%><%end%></strong></h4>
-                <h5><% @g.each do |g|%><%=g.account_number%><%end%></h5>
-              </div>
+  <div class="container">
+  <!--돈관리 부분 -->
+    <div class="row">
+      <div class="col-sm-6 col-md-6">
+      <!-- 그룹 이름 & 총무 계좌 --> 
+        <!-- 멤버 추가 버튼 -->
+        <h1 class="groupname"> <%= @group.gname %>&nbsp<button type="button" class="btn btn-warning btn-class" style="width: 60px; height: auto; font-size: 10px;" data-toggle="modal" data-target="#addmembers">멤버추가</button></h1>
+          <!-- 테두리 박스 총무 계좌 -->
+          <div class="account accountborder">
+            <h4><strong>총무: <%= @group.leader %></strong></h4>
+            <h5><%= @group.account_number %></h5>
           </div>
-          <!-- 개별 & 전체 버튼 -->
-          <div class="col-sm-6 col-md-6">
-            <div class="btn-group" role="group" aria-label="Basic example" >
-              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#eachperson">개별</button>
-              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#wholepeople">전체</button>
-            </div>
-          </div>
+      </div>
+      <!-- 개별 & 전체 버튼 -->
+      <div class="col-sm-6 col-md-6">
+        <div class="btn-group" role="group" aria-label="Basic example" >
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#eachperson">개별</button>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#wholepeople">전체</button>
         </div>
-        
-        
-        <!-- 돈과 저금통 -->
-        <div class="row" id="money">
-          <!--전체 돈-->
-            <div class="col-sm-6 col-md-6">
-              <h2><img src="/image/won.png" style="width: 50px; height: auto;"> : <% @g.each do |g|%><%=g.total%><%end%>원</h2>
-            </div> 
-            
-          <!-- 저금통 -->
-            <div class="col-sm-6 col-md-6">
-              <h3 class="pigmoney"><img src="/image/pigbank.png" style="width: 40px; height: auto;"> : 20,000원</h3>
-            </div>
-        </div>
-  
-      
-        <!-- 그래프 부분 -->
-        
-          
-        <div class="chart chartalign">
-          <canvas id="myChart" width="700" height="400"></canvas>
-        </div>
-          
-            
+      </div>
+    </div>
     
-          
-    <!-- 사용내역 표 -->      
-           
-        <div class="panel panel-default">
-           <div class="panel-body">
-              <h3>사용 내역</h3> 
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>언제?</th>
-                      <th>누가?</th>
-                      <th>어디에?</th>
-                      <th>얼마나?</th>
-                      <th>남은 돈은?</th>
-                    </tr>
-                  </thead>
-                  
-                  <tbody>
-                    <% @b.each do |board|%>
-                    <tr>
-                      <td><%=board.date%></td>
-                      <td> <% if board.board_type == 'ONLY' %>
-                            <%= board.member.tname %>
-                           <% else %>
-                          팀원 전체
-                          <% end %>
-                      </td>
-                      <td><%=board.content%></td>
-                      <td><%= board.howmuch %></td>
-                      <td> <%= board.remain %></td>
-                    </tr>
-                     <% end %>
-              
-  
-                  </tbody>
-                </table>
-            </div>
+    <!-- 돈과 저금통 -->
+    <div class="row" id="money">
+      <!--전체 돈-->
+        <div class="col-sm-6 col-md-6">
+          <h2><img src="/image/won.png" style="width: 50px; height: auto;"> : <%= @group.total %>원</h2>
+        </div> 
+        
+      <!-- 저금통 -->
+        <div class="col-sm-6 col-md-6">
+          <h3 class="pigmoney"><img src="/image/pigbank.png" style="width: 40px; height: auto;"> : 20,000원</h3>
         </div>
+    </div>
+
   
-      
-   
-  <!--END main -->
-  
-      </div><!-- 전체 grid -->
-    </div><!-- 전체 row -->
-  </div><!-- 전체 container -->
-  
-  
+    <!-- 그래프 부분 -->  
+    <div class="chart chartalign">
+      <canvas id="myChart" width="700" height="400"></canvas>
+    </div>
+    
+    <!-- 사용내역 표 -->   
+    <div class="panel panel-default">
+       <div class="panel-body">
+          <h3>사용 내역</h3> 
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>언제?</th>
+                  <th>누가?</th>
+                  <th>어디에?</th>
+                  <th>얼마나?</th>
+                  <th>남은 돈은?</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+                <% @group.boards.each do |board|%>
+                  <tr>
+                    <td><%= board.date %></td>
+                    <td> <% if board.board_type == 'ONLY' %>
+                          <%= board.member.tname %>
+                         <% else %>
+                        팀원 전체
+                        <% end %>
+                    </td>
+                    <td><%= board.content %></td>
+                    <td><%= board.howmuch %></td>
+                    <td><%= board.remain %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+        </div>
+    </div>
+    <!--END main -->
+
+  </div><!-- end of container -->
   
   <!-- 멤버추가 모달 -->
   <div class="container">
@@ -156,27 +100,23 @@
             </div>
             <!-- modal body 그룹 이름값 넣기 -->
             <div class="modal-body">
+              팀원: <% @group.members.each do |m|%> <%= m.tname %> &nbsp;<%end%><br>
+              <form action="/moneyger/mymember" type="POST">
+              <div class="modal-body">
               
-              
-              <% @g.each do |g|%>
-              팀원: <% g.members.each do |m|%> <%=m.tname%> &nbsp;<%end%><br>
-                <form action="/moneyger/mymember" type="POST">
-                    <input type="hidden" name="g_id" value="<%= g.id%>">
-                    팀원이름:<input type="text" name="tname">
-                    <input type="submit" value="팀원입력">
-                </form>
-               
-                <%end%><br><br>
-                          
-             
-              
+                  <input type="hidden" name="g_id" value="<%= @group.id%>">
+              <div class="form-group">
+                <label>팀원이름</label>
+                <input type="text" name="tname" class="form-control">
+              </div>  
             </div>
             <div class="modal-footer">
               <!-- 취소 버튼 -->
               <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
               <!-- 저장 버튼 데이터 연결 -->
-              <button type="button" class="btn btn-primary">저장하기</button>
+              <button type="submit" class="btn btn-primary">저장하기</button>
             </div><!-- END modal-footer -->
+            </form>
           </div><!-- END modal-content -->
         </div><!-- END modal-dialog -->
       </div><!-- END modal-fade -->
@@ -193,42 +133,37 @@
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title" id="myModalLabel">개별 변동</h4>
             </div><!-- modal-header -->
-            <div class="modal-body">
            
-  <% @g.each do |g|%>
-                
-    <a href="/moneyger/a1/<%= g.id%>">차감</a><br>
-    <!--<a href="/money/a2/<%= g.id%>">전체차감</a><br>-->
-    그룹이름:<%=g.gname%><br>
-    총무: <%=g.leader%> <br>
-    계좌번호: <%=g.account_number%> <br>
-    예치금:<%=g.total%><br>
-    팀원: <% g.members.each do |m|%> <%=m.tname%> &nbsp;<%end%><br>
-    
-    <%end%><br><br>
-    
-    <% @b.each do |board|%>
-    언제 : <%=board.date%>
-    <br/>
-    어디에: <%=board.content%>
-    <br/>
-    
-    얼마: <%= board.howmuch %>
-    <br/>
-    남은돈: <%= board.remain %>
-    <br/>
-    <br/>
-    
-    <% end %>
-                         
-             
-             
-             
-             
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-              <button type="button" class="btn btn-primary">변경</button>
-            </div><!-- END modal-footer -->
+            <form action="/moneyger/board" type="POST">
+              <div class="modal-body">    
+                <input type="hidden" name="gg_id" value="<%= @group.id %>">
+                <input type="hidden" name="board_type" value="ONLY">
+                <div class="form-group">
+                  <label>언제</label>
+                  <input type="text" name="date" id="datepicker" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>누가</label>
+                  <select name="member" class="form-control">
+                    <% @group.members.each do |member| %>
+                      <option value="<%= member.id %>"><%= member.tname %></option>
+                    <% end %>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>어디에</label>
+                  <input type="text" name="content" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>얼마나</label>
+                  <input type="text" name="howmuch" class="form-control">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                <button type="submit" class="btn btn-primary">변경</button>
+              </div><!-- END modal-footer -->
+            </form>
           </div><!-- END modal-content -->
         </div><!-- END modal-dialog -->
       </div><!-- END modal-fade -->
@@ -247,37 +182,28 @@
               <h4 class="modal-title" id="myModalLabel">전체 변동</h4>
             </div><!-- modal-header -->
             <div class="modal-body">
+              <a href="/moneyger/a2/<%= @group.id%>">차감</a><br>
               
-                <% @g.each do |g|%>
-                
-    <a href="/moneyger/a2/<%= g.id%>">차감</a><br>
-    
-    그룹이름:<%=g.gname%><br>
-    총무: <%=g.leader%> <br>
-    계좌번호: <%=g.account_number%> <br>
-    예치금:<%=g.total%><br>
-    팀원: <% g.members.each do |m|%> <%=m.tname%> &nbsp;<%end%><br>
-    
-    <%end%><br><br>
-    
-    <% @b.each do |board|%>
-    언제 : <%=board.date%>
-    <br/>
-    어디에: <%=board.content%>
-    <br/>
-    
-    <br/>
-    얼마: <%= board.howmuch %>
-    <br/>
-    남은돈: <%= board.remain %>
-    <br/>
-    <br/>
-    
-    <% end %>
+              그룹이름:<%= @group.gname%><br>
+              총무: <%= @group.leader%> <br>
+              계좌번호: <%= @group.account_number%> <br>
+              예치금:<%= @group.total%><br>
+              팀원: <% @group.members.each do |m|%> <%= m.tname %> &nbsp;<% end %><br>
               
+              <br><br>
               
-              
-              
+              <% @group.boards.each do |board|%>
+                언제 : <%= board.date%>
+                <br/>
+                어디에: <%= board.content%>
+                <br/>
+                <br/>
+                얼마: <%= board.howmuch %>
+                <br/>
+                남은돈: <%= board.remain %>
+                <br/>
+                <br/>
+              <% end %>
             </div><!-- END modal-body -->
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
@@ -290,22 +216,29 @@
   </div><!-- END modal-container -->
 </div>
 
-
-
-
 <script type="text/javascript">
   $('.js-example-basic-multiple').select2({
     width: 300
   });
 </script>
 
-
 <!-- 차트 데이터 -->
 <script>
 $(document).ready(function() {
+  <% if false %>
+  // var members_data = [
+  //   <% @group.members.each do |m| %>
+  //   {
+  //     id: m.id,
+  //     number: m.tnumber
+  //   },
+  //   <% end %>
+  // ]
+  <% end %>
+  
   var ctx = $('#myChart').get(0).getContext("2d");
   var data = {
-    labels: [<% @g.each do |g|%><% g.members.each do |m|%>"<%=m.tname%>",<%end%><%end%>],
+    labels: [<% @group.members.each do |m|%>"<%= m.tname %>",<% end %>],
     datasets: [
         {
             label: "멋쟁이사자처럼X코딩할꼬딩",
@@ -314,9 +247,8 @@ $(document).ready(function() {
             highlightFill: "rgba(255,182,0,0.5)",
             highlightStroke: "rgba(255,182,0,0.5)",
        
-            data: [80, 90, 70, 80, 70, 80]
+            data: [80, 90, 70, 80, 10, 100]
         }
-         
       ]
   };
   var testChart = new Chart(ctx).RoundedBar(data, {
@@ -329,5 +261,7 @@ $(document).ready(function() {
     scaleShowHorizontalLines: false,
     barShowStroke : false,
   });
+  
+  $( "#datepicker").datepicker();
 });
 </script>

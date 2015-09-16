@@ -1,12 +1,46 @@
-  <div class="container maxmain">
-    <div class="row">
-      <div class="mainpage"> 
-        <!--navbar -->
-        <nav class="navbar navbar-default navbar-fixed-top nav-height">
-          <div class="container">
-            <a href="/"><img src="/image/moneyger.png" class="logo"></a>
+<!--navbar -->
+<nav class="navbar navbar-default navbar-fixed-top nav-height">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand display" href="/"><img src="/image/moneyger.png" style="width: 140px; height: auto;"></a>
+    </div>
+    <% if user_signed_in? %>
+    <div id="navbar" class="navbar-collapse collapse">
+      <!-- navbar content -->
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <!-- group list -->
+          <div class="dropdown grouplist">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              그룹리스트
+              <span class="caret"></span>
+            </button>
+            <!-- 그룹 이름 코드 들어가야 하는 곳 -->
+            <ul class="dropdown-menu">
+              <% if @g %>
+                <% @g.each do |g|%>
+                  <li><a href="/moneyger/index/<%= g.id %>"><%=g.gname%><br></a></li>
+                <% end %>
+              <% else %>
+                <li><a>그룹이 없습니다.</a></li>
+              <% end %>
+
+            </ul>
           </div>
-        </nav>
-      </div><!-- END mainpage --> 
-    </div><!-- END row -->
-  </div><!-- END container maxmain -->
+        </li> <!-- 아래에 user로그인 시 username 이 뜨고 로그아웃 버튼이 뜨게 -->
+
+          <% if user_signed_in? %>
+            <li><p><%= current_user.email %></p></li>
+            <li><p><%= link_to "로그아웃", destroy_user_session_path, method: :get, data: { confirm: "로그아웃 하시겠습니까?" } %></p></li>
+              <% else %>
+            <li><p><%= link_to "로그인", new_user_session_path %></p></li>
+          <% end %>
+      
+        <li>
+          <a href="/users/sign_up">회원가입</a>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+    <% end %>
+  </div>
+</nav>

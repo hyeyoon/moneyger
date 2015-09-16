@@ -1,21 +1,15 @@
 class MoneygerController < ApplicationController
      before_action :authenticate_user!
     
-  def index
-        @g = Gg.all
-        @b = Board.all  
-        @m = Member.all
-  end
-  
-  def dashboard
-      @u = User.all
-      @gg = Gg.new
-      @gg.user_id=params[:user_id]
-      @gg.save 
-      @g = Gg.all 
-     
+    def index
+        @group = Gg.find_by_id(params[:id])
+        @g = Gg.where(user_id: current_user.id)
+    end
       
-  end
+    def dashboard
+        @u = User.all
+        @g = Gg.where(user_id: current_user.id)
+    end
 
     def mygroup   
     end
@@ -26,7 +20,7 @@ class MoneygerController < ApplicationController
         m.tnumber = params[:tnumber]
         m.gg_id = params[:g_id]
         m.save
-        redirect_to '/'
+        redirect_to '/moneyger/index/' + params[:g_id]
     end
     
     
@@ -50,7 +44,6 @@ class MoneygerController < ApplicationController
         g.account_number = params[:account_number]
         g.user_id = current_user.id
         g.save
-        
         redirect_to '/'
     end
     
@@ -71,7 +64,7 @@ class MoneygerController < ApplicationController
         p.member_id = params[:member]
         p.save
         
-        redirect_to '/'
+        redirect_to '/moneyger/index/' + params[:gg_id]
     end
   
 end
