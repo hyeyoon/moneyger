@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20150914095249) do
   create_table "ggs", force: :cascade do |t|
     t.string   "gname"
     t.string   "leader"
-    t.integer  "account_number"
+    t.string   "account_number"
     t.integer  "total"
     t.integer  "user_id"
     t.datetime "created_at",     null: false

@@ -1,7 +1,8 @@
 body {
-	font-family: 'KoPub Dotum';
+	  font-family: 'KoPub Dotum' !important;
   	font-style: normal;
-  	font-weight: 300;
+  	font-weight: 200;
+  	color: #675e54 !important;
 }
 
 @media (min-width: 1200px) {
@@ -12,15 +13,13 @@ body {
 
 @media (min-width: 1200px) {
     .btn-group {
-        margin-top: 150px !important; 
-        margin-left: 74% !important;
+       margin-left: 22% !important;
     }
 }
 
 @media (min-width: 768px) {
     .btn-group {
-        margin-top: 150px; 
-        margin-left: 70%; 
+      
     }
 }
 
@@ -43,17 +42,39 @@ body {
 .groupname {
     font-family: 'KoPub Dotum';
   	font-style: normal;
-  	font-weight: bold;
+  	font-weight: 600;
+  	font-size: 220%;
+  	margin-top: 8%;
+  	margin-bottom: 3%;
 }
 
 .main {
-    background-image: url(); 
+   background-color: #e8e8e8;
+   margin-top: -7px;
 }
 
 .mainpage {
     background-color: #ffffff;
 }
 
+.line {
+  margin-top: 3%;
+}
+
+.leaderinfo {
+  border-top: 2px solid #ffb600;
+  padding-top: 7%;
+  margin-top: -2%;
+}
+
+.total {
+  border-right: 1px solid #eee;
+}
+
+.marginmd {
+  margin-top: 2%;
+  margin-bottom: 4%;
+}
 
 .logo {
     width: 140px;
@@ -76,20 +97,18 @@ body {
     border-radius: 3px;
 }
 
-.accountborder {
-	border-left-color: #FFB600;
-}
 
 .chartalign {
   position: relative;
-  
-  
 }
 
 .pigmoney {
 	text-align: right;
 }
 
+.ftweight {
+  font-weight: 550;
+}
 
 .nav-height {
 	height: 55px;
@@ -106,17 +125,95 @@ body {
 
 .btn-align {
   float: right;
-  margin-top: 35px;
+  
+}
+
+#btn-whole {
+  height: 50px;
+  width: 100px;
+  text-align: center;
+  font-size: 20px;
+  color: #675e54;
+  background-color: #f9f9f9;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 2px solid #ffb600;
+  border-radius: 25px;
+}
+
+#btn-whole:hover {
+  opacity: 0.8; 
+}
+
+#btn-each {
+  height: 50px;
+  width: 100px;
+  text-align: center;
+  font-size: 20px;
+  color: #fff;
+  background-color: #ffb600;
+  border-color: #eea236;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 25px;
+}
+
+#btn-each:hover {
+  opacity: 0.8;
+}
+
+.btn-class {
+  height: 23px;
+  width: 40px;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+  background-color: #ffb600;
+  border-color: #eea236;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+
+#wholemoney {
+  
+}
+
+#moneypig {
+  
 }
 
 .optionpng {
-  width: 40px; 
+  width: 30px; 
   height: auto;
   float: right;
 }
 
 .panel-height {
-  height: 170px;
+  height: 200px;
 }
 
 .panel-make:hover {
@@ -127,9 +224,7 @@ body {
   opacity: 0.5; 
 }
 
-#money {
-	padding-bottom: 20px;
-}
+
 
 
 /* KoPub Dotum */

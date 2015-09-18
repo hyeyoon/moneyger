@@ -8,45 +8,66 @@
     </div>
   </div>
   <!-- Main -->
-  <div class="container">
+  <div class="container" style="background-color: #f9f9f9">
   <!--돈관리 부분 -->
     <div class="row">
-      <div class="col-sm-6 col-md-6">
-      <!-- 그룹 이름 & 총무 계좌 --> 
-        <!-- 멤버 추가 버튼 -->
-        <h1 class="groupname"> <%= @group.gname %>&nbsp<button type="button" class="btn btn-warning btn-class" style="width: 60px; height: auto; font-size: 10px;" data-toggle="modal" data-target="#addmembers">멤버추가</button></h1>
+        <div class="col-sm-12 col-md-12">
+          <!-- 그룹 이름 & 총무 계좌 --> 
+          <!-- 그룹수정 버튼 -->
+          <h1 class="groupname"><center><%= @group.gname %>&nbsp;
+            <button type="button" class="btn-class" data-toggle="modal" data-target="#modifygroup">Edit</button>
+          </h1></center>
+          
           <!-- 테두리 박스 총무 계좌 -->
-          <div class="account accountborder">
-            <h4><strong>총무: <%= @group.leader %></strong></h4>
-            <h5><%= @group.account_number %></h5>
-          </div>
-      </div>
-      <!-- 개별 & 전체 버튼 -->
-      <div class="col-sm-6 col-md-6">
-        <div class="btn-group" role="group" aria-label="Basic example" >
-          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#eachperson">개별</button>
-          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#wholepeople">전체</button>
+            <div class="col-md-6 .col-md-offset-3" style="margin-left: 25%;">
+              <h5 class="leaderinfo"><center><strong>총무: <%= @group.leader %></strong>&nbsp; &nbsp;<img src="/image/woori.png" style="width: 30px; height: auto;"><%= @group.account_number %></center></h5>
+            
+              <!-- 개별 & 전체 버튼 -->
+              <div class="btn-group" role="group" aria-label="Basic example" style="margin-top: 20px;">
+                <button type="button" id="btn-whole" data-toggle="modal" data-target="#wholepeople">전체</button>&nbsp;&nbsp;
+                <button type="button" id="btn-each" data-toggle="modal" data-target="#eachperson">개별</button>
+              </div>
+            
+            </div>
         </div>
-      </div>
-    </div>
+    </div><!-- END row -->
     
     <!-- 돈과 저금통 -->
-    <div class="row" id="money">
-      <!--전체 돈-->
-        <div class="col-sm-6 col-md-6">
-          <h2><img src="/image/won.png" style="width: 50px; height: auto;"> : <%= @group.total %>원</h2>
-        </div> 
-        
-      <!-- 저금통 -->
-        <div class="col-sm-6 col-md-6">
-          <h3 class="pigmoney"><img src="/image/pigbank.png" style="width: 40px; height: auto;"> : 20,000원</h3>
+    <div class="line">
+      <div class="row" id="money">
+        <!--전체 돈-->
+          <div class="col-sm-6 col-md-6 total">
+            <div class="row marginmd" id="wholemoney">
+              <div class="col-sm-4 col-md-4">
+                <img src="/image/teammoney.png" style="width: 100px; height: auto; margin-left: 80%;">
+              </div>
+              <div class="col-sm-8 col-md-8">
+                <h4 style="padding-left: 28%;">전체돈<br><font size="8" class="ftweight"><%= @group.total %></font>&nbsp;원</h4>
+              </div>
+            </div>
+          </div> <!-- END 전체돈 -->        
+          
+        <!-- 저금통 -->
+          <div class="col-sm-6 col-md-6">
+            <div class="row marginmd" id="moneypig">
+              <div class="col-sm-4 col-md-4">
+                <img src="/image/piggy.png" style="width: 100px; height: auto; margin-left: 20%;">
+              </div>
+              <div class="col-sm-8 col-md-8">
+                <h4>저금통<br><font size="8" class="ftweight"> 20000</font>&nbsp;원</h4>
+              </div>  
+            </div>
+          </div> <!-- END 저금통 -->
         </div>
-    </div>
-
+      </div> <!-- END line -->
   
+  <!-- 멤버별 그래프 --> 
+    <h4>&nbsp;&nbsp;<img src="/image/coin.png" style="width: 20px; height: auto;">&nbsp;&nbsp;멤버별 금액 사용 현황</h4>
     <!-- 그래프 부분 -->  
-    <div class="chart chartalign">
-      <canvas id="myChart" width="700" height="400"></canvas>
+    <div class="panel">
+      <div class="chart chartalign" style="margin-top: 40px; margin-bottom: 40px; margin-left: 30px;">
+        <canvas id="myChart" width="700" height="400"></canvas>
+      </div>
     </div>
     
     <!-- 사용내역 표 -->   
@@ -86,6 +107,45 @@
     <!--END main -->
 
   </div><!-- end of container -->
+
+<!-- 그룹 수정 모달 -->
+  <div class="container">
+    <div class="row">
+      <div class="modal fade" id="modifygroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <!-- modal head -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">멤버 편집</h4>
+            </div>
+            <!-- modal body 그룹 이름값 넣기 -->
+            <div class="modal-body">
+              팀원: <% @group.members.each do |m|%> <%= m.tname %> &nbsp;<%end%><br>
+              <form action="/moneyger/mymember" type="POST">
+              <div class="modal-body">
+              
+                  <input type="hidden" name="g_id" value="<%= @group.id%>">
+              <div class="form-group">
+                <label>팀원이름</label>
+                <input type="text" name="tname" class="form-control">
+              </div>  
+            </div>
+            <div class="modal-footer">
+              <!-- 취소 버튼 -->
+              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+              <!-- 저장 버튼 데이터 연결 -->
+              <button type="submit" class="btn btn-primary">저장하기</button>
+            </div><!-- END modal-footer -->
+            </form>
+          </div><!-- END modal-content -->
+        </div><!-- END modal-dialog -->
+      </div><!-- END modal-fade -->
+    </div><!-- END modal-row -->
+  </div><!-- END modal-container -->
+
+
+
   
   <!-- 멤버추가 모달 -->
   <div class="container">
@@ -182,33 +242,30 @@
               <h4 class="modal-title" id="myModalLabel">전체 변동</h4>
             </div><!-- modal-header -->
             <div class="modal-body">
-              <a href="/moneyger/a2/<%= @group.id%>">차감</a><br>
-              
-              그룹이름:<%= @group.gname%><br>
-              총무: <%= @group.leader%> <br>
-              계좌번호: <%= @group.account_number%> <br>
-              예치금:<%= @group.total%><br>
-              팀원: <% @group.members.each do |m|%> <%= m.tname %> &nbsp;<% end %><br>
-              
-              <br><br>
-              
-              <% @group.boards.each do |board|%>
-                언제 : <%= board.date%>
-                <br/>
-                어디에: <%= board.content%>
-                <br/>
-                <br/>
-                얼마: <%= board.howmuch %>
-                <br/>
-                남은돈: <%= board.remain %>
-                <br/>
-                <br/>
-              <% end %>
-            </div><!-- END modal-body -->
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-              <button type="button" class="btn btn-primary">변경</button>
-            </div><!-- END modal-footer -->
+                    <form action="/moneyger/board" type="POST">
+              <div class="modal-body">    
+               <input type="hidden" name="gg_id" value="<%= @group.id %>">
+               <input type="hidden" name="board_type" value="Group">
+                  <div class="form-group">
+                  <label>언제</label>
+                  <input type="text" name="date" id="datepicker" class="form-control">
+                </div>
+     
+                <div class="form-group">
+                  <label>어디에</label>
+                  <input type="text" name="content" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>얼마나</label>
+                  <input type="text" name="howmuch" class="form-control">
+                </div>
+              </div>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                <button type="submit" class="btn btn-primary">변경</button>
+              </div><!-- END modal-footer -->
+            </form>
+            
           </div><!-- END modal-content -->
         </div><!-- END modal-dialog -->
       </div><!-- END modal-fade -->

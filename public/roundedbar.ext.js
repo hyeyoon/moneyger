@@ -8,7 +8,7 @@ Chart.RoundedRectangle = Chart.Rectangle.extend({
           top = this.base - (this.base - this.y),
           halfStroke = this.strokeWidth / 2,
           // customized for moneyger
-          radius = 10;
+          radius = 28;
 
 
       // Canvas doesn't allow us to stroke inside the width so we can
