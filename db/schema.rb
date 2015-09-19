@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20150914095249) do
   create_table "members", force: :cascade do |t|
     t.string   "tname"
     t.integer  "gg_id"
-    t.integer  "tnumber"
+    t.integer  "mymoney"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

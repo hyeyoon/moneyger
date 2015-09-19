@@ -8,28 +8,28 @@
     </div>
   </div>
   <!-- Main -->
-  <div class="container" style="background-color: #f9f9f9">
+  <div class="container" style="background-color: #f9f9f9; box-shadow: 1px 1px 5px 3px #ddd;">
   <!--돈관리 부분 -->
     <div class="row">
-        <div class="col-sm-12 col-md-12">
-          <!-- 그룹 이름 & 총무 계좌 --> 
-          <!-- 그룹수정 버튼 -->
-          <h1 class="groupname"><center><%= @group.gname %>&nbsp;
-            <button type="button" class="btn-class" data-toggle="modal" data-target="#modifygroup">Edit</button>
-          </h1></center>
-          
-          <!-- 테두리 박스 총무 계좌 -->
-            <div class="col-md-6 .col-md-offset-3" style="margin-left: 25%;">
-              <h5 class="leaderinfo"><center><strong>총무: <%= @group.leader %></strong>&nbsp; &nbsp;<img src="/image/woori.png" style="width: 30px; height: auto;"><%= @group.account_number %></center></h5>
-            
-              <!-- 개별 & 전체 버튼 -->
-              <div class="btn-group" role="group" aria-label="Basic example" style="margin-top: 20px;">
-                <button type="button" id="btn-whole" data-toggle="modal" data-target="#wholepeople">전체</button>&nbsp;&nbsp;
-                <button type="button" id="btn-each" data-toggle="modal" data-target="#eachperson">개별</button>
-              </div>
-            
-            </div>
+      <div class="col-sm-12 col-md-12">
+        <!-- 그룹 이름 & 총무 계좌 --> 
+        <!-- 그룹수정 버튼 -->
+        <h1 class="groupname"><center><%= @group.gname %>&nbsp;
+          <button type="button" class="btn-class" data-toggle="modal" data-target="#modifygroup">Edit</button>
+        </h1></center>
+        
+        <!-- 테두리 박스 총무 계좌 -->
+        <div class="col-md-6 .col-md-offset-3" style="margin-left: 25%;">
+          <h5 class="leaderinfo"><center><strong>총무: <%= @group.leader %></strong>&nbsp; &nbsp;<img src="/image/woori.png" style="width: 30px; height: auto;"><%= @group.account_number %></center></h5>
+        
+          <!-- 개별 & 전체 버튼 -->
+          <div class="btn-group" role="group" aria-label="Basic example" style="margin-top: 20px;">
+            <button type="button" id="btn-whole" data-toggle="modal" data-target="#wholepeople">전체</button>&nbsp;&nbsp;
+            <button type="button" id="btn-each" data-toggle="modal" data-target="#eachperson">개별</button>
+          </div>
+        
         </div>
+      </div>
     </div><!-- END row -->
     
     <!-- 돈과 저금통 -->
@@ -60,13 +60,16 @@
           </div> <!-- END 저금통 -->
         </div>
       </div> <!-- END line -->
-  
-  <!-- 멤버별 그래프 --> 
-    <h4>&nbsp;&nbsp;<img src="/image/coin.png" style="width: 20px; height: auto;">&nbsp;&nbsp;멤버별 금액 사용 현황</h4>
+
+    <!-- 멤버별 그래프 -->
+    <h4 style="margin-top: 5%;"><img src="/image/coin.png" style="width: 20px; height: auto;">&nbsp;&nbsp;멤버별 금액 보유 현황</h4> 
+    <!--멤버 추가 버튼 -->  
+    <button type="button" class="btn-class-1" data-toggle="modal" data-target="#addmembers">멤버추가</button>
+    
     <!-- 그래프 부분 -->  
     <div class="panel">
       <div class="chart chartalign" style="margin-top: 40px; margin-bottom: 40px; margin-left: 30px;">
-        <canvas id="myChart" width="700" height="400"></canvas>
+        <canvas id="gchart_current" width="700" height="400"></canvas>
       </div>
     </div>
     
@@ -105,6 +108,15 @@
         </div>
     </div>
     <!--END main -->
+    <!-- 멤버별 그래프 --> 
+    <h4><img src="/image/coin.png" style="width: 20px; height: auto;">&nbsp;&nbsp;멤버별 금액 사용 현황</h4>
+
+    <!-- 그래프 부분 -->  
+    <div class="panel">
+      <div class="chart chartalign" style="margin-top: 40px; margin-bottom: 40px; margin-left: 30px;">
+        <canvas id="gchart_usage" width="700" height="400"></canvas>
+      </div>
+    </div>
 
   </div><!-- end of container -->
 
@@ -117,26 +129,37 @@
             <!-- modal head -->
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">멤버 편집</h4>
+              <h4 class="modal-title" id="myModalLabel">그룹 편집</h4>
             </div>
             <!-- modal body 그룹 이름값 넣기 -->
-            <div class="modal-body">
-              팀원: <% @group.members.each do |m|%> <%= m.tname %> &nbsp;<%end%><br>
-              <form action="/moneyger/mymember" type="POST">
-              <div class="modal-body">
+          
               
-                  <input type="hidden" name="g_id" value="<%= @group.id%>">
+              <form action="/moneyger/updatem/<%= @group.id %>" method="POST"><br>
+              <div class="modal-body" style="padding-left: 10%; padding-right: 10%;">
               <div class="form-group">
-                <label>팀원이름</label>
-                <input type="text" name="tname" class="form-control">
+                <label>팀이름</label>
+                <input type="text" value="<%= @group.gname %>" name="new_gname" class="form-control">
               </div>  
+              <div class="form-group">
+                <label>총무</label>
+                <input type="text" value="<%= @group.leader %>" name="new_leader" class="form-control">
+                </div>
+                <div class="form-group">
+                <label>계좌번호</label>
+               <input type="text" value="<%= @group.account_number %>" name="new_account_number" class="form-control">
+                </div>
+                <div class="form-group">
+                <label>예치금</label>
+                <input type="text" value="<%= @group.total %>" name="new_total" class="form-control">
+                </div>
+             
             </div>
-            <div class="modal-footer">
+            
               <!-- 취소 버튼 -->
-              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-cancel" data-dismiss="modal">취소</button>
               <!-- 저장 버튼 데이터 연결 -->
-              <button type="submit" class="btn btn-primary">저장하기</button>
-            </div><!-- END modal-footer -->
+              <button type="submit" class="btn btn-save">저장하기</button>
+            
             </form>
           </div><!-- END modal-content -->
         </div><!-- END modal-dialog -->
@@ -159,9 +182,11 @@
               <h4 class="modal-title" id="myModalLabel">멤버 편집</h4>
             </div>
             <!-- modal body 그룹 이름값 넣기 -->
-            <div class="modal-body">
+            <div class="modal-body" style="padding-left: 10%; padding-right: 10%;">
               팀원: <% @group.members.each do |m|%> <%= m.tname %> &nbsp;<%end%><br>
               <form action="/moneyger/mymember" type="POST">
+  
+              
               <div class="modal-body">
               
                   <input type="hidden" name="g_id" value="<%= @group.id%>">
@@ -170,12 +195,12 @@
                 <input type="text" name="tname" class="form-control">
               </div>  
             </div>
-            <div class="modal-footer">
+            
               <!-- 취소 버튼 -->
-              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-cancel" data-dismiss="modal">취소</button>
               <!-- 저장 버튼 데이터 연결 -->
-              <button type="submit" class="btn btn-primary">저장하기</button>
-            </div><!-- END modal-footer -->
+              <button type="submit" class="btn btn-save">저장하기</button>
+            
             </form>
           </div><!-- END modal-content -->
         </div><!-- END modal-dialog -->
@@ -195,12 +220,12 @@
             </div><!-- modal-header -->
            
             <form action="/moneyger/board" type="POST">
-              <div class="modal-body">    
+              <div class="modal-body" style="padding-left: 10%; padding-right: 10%;">    
                 <input type="hidden" name="gg_id" value="<%= @group.id %>">
                 <input type="hidden" name="board_type" value="ONLY">
                 <div class="form-group">
                   <label>언제</label>
-                  <input type="text" name="date" id="datepicker" class="form-control">
+                  <input type="text" name="date" class="form-control datepicker">
                 </div>
                 <div class="form-group">
                   <label>누가</label>
@@ -219,17 +244,16 @@
                   <input type="text" name="howmuch" class="form-control">
                 </div>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-                <button type="submit" class="btn btn-primary">변경</button>
-              </div><!-- END modal-footer -->
+              
+                <button type="button" class="btn btn-cancel" data-dismiss="modal">취소</button>
+                <button type="submit" class="btn btn-save">변경</button>
+              
             </form>
           </div><!-- END modal-content -->
         </div><!-- END modal-dialog -->
       </div><!-- END modal-fade -->
     </div><!-- END modal-row -->
   </div><!-- END modal-container -->
-  
   
   <!-- 전체 차감 모달 -->
   <div class="container">
@@ -240,15 +264,18 @@
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title" id="myModalLabel">전체 변동</h4>
-            </div><!-- modal-header -->
-            <div class="modal-body">
-                    <form action="/moneyger/board" type="POST">
+            </div><!-- /modal-header -->
+            <div class="modal-body" style="padding-left: 10%; padding-right: 10%;">
+              
+              <%= form_tag("/moneyger/board", method: "POST") do %>
+        
+              <!--<form action="/moneyger/board" type="POST">-->
               <div class="modal-body">    
                <input type="hidden" name="gg_id" value="<%= @group.id %>">
                <input type="hidden" name="board_type" value="Group">
                   <div class="form-group">
                   <label>언제</label>
-                  <input type="text" name="date" id="datepicker" class="form-control">
+                  <input type="text" name="date" class="form-control datepicker">
                 </div>
      
                 <div class="form-group">
@@ -260,12 +287,12 @@
                   <input type="text" name="howmuch" class="form-control">
                 </div>
               </div>
-             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-                <button type="submit" class="btn btn-primary">변경</button>
-              </div><!-- END modal-footer -->
-            </form>
-            
+             
+                <button type="button" class="btn btn-cancel" data-dismiss="modal">취소</button>
+                <!--<button type="submit" class="btn btn-save"></button>-->
+                <%= submit_tag "변경" ,class:"btn btn-save"%>
+             <%end%>
+            <!--</form>-->
           </div><!-- END modal-content -->
         </div><!-- END modal-dialog -->
       </div><!-- END modal-fade -->
@@ -273,11 +300,9 @@
   </div><!-- END modal-container -->
 </div>
 
-<script type="text/javascript">
-  $('.js-example-basic-multiple').select2({
-    width: 300
-  });
-</script>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.full.min.js"></script>
 
 <!-- 차트 데이터 -->
 <script>
@@ -293,32 +318,64 @@ $(document).ready(function() {
   // ]
   <% end %>
   
-  var ctx = $('#myChart').get(0).getContext("2d");
-  var data = {
-    labels: [<% @group.members.each do |m|%>"<%= m.tname %>",<% end %>],
-    datasets: [
-        {
-            label: "멋쟁이사자처럼X코딩할꼬딩",
-            fillColor: "rgba(255,182,0,1)",
-            strokeColor: "rgba(255,182,0,0.1)",
-            highlightFill: "rgba(255,182,0,0.5)",
-            highlightStroke: "rgba(255,182,0,0.5)",
-       
-            data: [80, 90, 70, 80, 10, 100]
-        }
-      ]
-  };
-  var testChart = new Chart(ctx).RoundedBar(data, {
-  	scaleIntegersOnly: true,
-  	scaleFontSize: 15,
-  	animationSteps: 70,
-    barStrokeWidth: 0,
-    barValueSpacing : 20,
-    scaleShowVerticalLines: false,
-    scaleShowHorizontalLines: false,
-    barShowStroke : false,
-  });
   
-  $( "#datepicker").datepicker();
+  if(<%= @group.members.length %>) {
+    var ctx_current = $('#gchart_current').get(0).getContext("2d");
+    var data_current = {
+      labels: [<% @current.each do |key, value|%>"<%= key %>",<% end %>],
+      datasets: [
+          {
+              label: "<%= @group.gname %>",
+              fillColor: "rgba(255,182,0,1)",
+              strokeColor: "rgba(255,182,0,0.1)",
+              highlightFill: "rgba(255,182,0,0.5)",
+              highlightStroke: "rgba(255,182,0,0.5)",
+              data: [<% @current.each do |key, value|%>"<%= value %>",<% end %>]
+          }
+        ]
+    };
+    
+    var currentChart = new Chart(ctx_current).RoundedBar(data_current, {
+      scaleBeginAtZero: false,
+    	scaleIntegersOnly: true,
+    	scaleFontSize: 15,
+    	animationSteps: 70,
+      barStrokeWidth: 0,
+      barValueSpacing : 20,
+      scaleShowVerticalLines: false,
+      scaleShowHorizontalLines: false,
+      barShowStroke : false,
+    });
+    var ctx_usage = $('#gchart_usage').get(0).getContext("2d");
+    var data_usage = {
+      labels: [<% @usage.each do |key, value|%>"<%= key %>",<% end %>],
+      datasets: [
+          {
+              label: "<%= @group.gname %>",
+              fillColor: "rgba(255,182,0,1)",
+              strokeColor: "rgba(255,182,0,0.1)",
+              highlightFill: "rgba(255,182,0,0.5)",
+              highlightStroke: "rgba(255,182,0,0.5)",
+              data: [<% @usage.each do |key, value|%>"<%= value %>",<% end %>]
+          }
+        ]
+    };
+    var usageChart = new Chart(ctx_usage).RoundedBar(data_usage, {
+      scaleBeginAtZero: false,
+    	scaleIntegersOnly: true,
+    	scaleFontSize: 15,
+    	animationSteps: 70,
+      barStrokeWidth: 0,
+      barValueSpacing : 20,
+      scaleShowVerticalLines: false,
+      scaleShowHorizontalLines: false,
+      barShowStroke : false,
+    });
+  }
+  
+  $(".datepicker").datepicker();
+  $('select').select2({
+    width: 300
+  });
 });
 </script>

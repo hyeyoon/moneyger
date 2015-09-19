@@ -5,13 +5,18 @@ body {
   	color: #675e54 !important;
 }
 
+input {
+  border-radius: 20px !important;
+}
+
+button { 
+  border-radius: 45px !important;
+}
+
 @media (min-width: 1200px) {
     .container {
         width: 850px !important;
     }
-}
-
-@media (min-width: 1200px) {
     .btn-group {
        margin-left: 22% !important;
     }
@@ -19,7 +24,7 @@ body {
 
 @media (min-width: 768px) {
     .btn-group {
-      
+       margin-left: 18%;
     }
 }
 
@@ -125,7 +130,12 @@ body {
 
 .btn-align {
   float: right;
-  
+  background-color: #ffc513 !important;
+  border: none !important;
+}
+
+.btn-align:hover {
+  background-color: #ffb700 !important;
 }
 
 #btn-whole {
@@ -198,6 +208,38 @@ body {
   border-radius: 10px;
 }
 
+.btn-class:hover {
+  opacity: 0.8;
+}
+
+.btn-class-1 {
+  height: 33px;
+  width: 65px;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  background-color: #ffb600;
+  border-color: #eea236;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 17px;
+  float: left;
+  margin-left: 25%;
+  margin-top: -4.7%;
+}
+
+.btn-class-1:hover {
+  opacity: 0.8;
+}
+
 #wholemoney {
   
 }
@@ -207,7 +249,7 @@ body {
 }
 
 .optionpng {
-  width: 30px; 
+  width: 40px; 
   height: auto;
   float: right;
 }
@@ -217,15 +259,57 @@ body {
 }
 
 .panel-make:hover {
-  opacity: 0.8; 
+  opacity: 0.8;
 }
 
 .imghover:hover {
   opacity: 0.5; 
 }
 
+.form-control {
+  border: 1px solid #ffc513 !important; 
+  
+}
 
+.form-control:focus {
+  outline-color: #ffc513;
+  box-shadow: 0 0px 4px #ffc513 !important;
+}
 
+.modal-content {
+  border-radius: 23px !important;
+  padding-bottom: 3% !important;
+}
+
+.modal-title {
+  font-size: 25px !important;
+  text-align: center !important;
+  font-weight: 500 !important;
+}
+
+.btn-cancel {
+  color: #675e54;
+  background-color: #f9f9f9;
+  border: 1px solid #ffb600 !important;
+  display: block;
+  margin-left: 38%;
+}
+
+.btn-save {
+  color: #fff;
+  background-color: #ffb600;
+  border: 1px solid transparent;
+  display: block;
+}
+
+.btn-default {
+  border: 1px solid #ffc513 !important;
+}
+
+.btn-drop:hover {
+  background-color: #ffc513 !important;
+  opacity: 0.8 !important;
+}
 
 /* KoPub Dotum */
 @font-face {

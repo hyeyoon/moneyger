@@ -1,9 +1,51 @@
 class MoneygerController < ApplicationController
-     before_action :authenticate_user!
+     before_action :authenticate_user!, :except => [:index]
     
     def index
         @group = Gg.find_by_id(params[:id])
-        @g = Gg.where(user_id: current_user.id)
+        #@g = Gg.where(user_id: current_user.id)
+          members = @group.members.all
+        boards = @group.boards.all
+            
+        @current = {}
+        @usage = {}
+            
+        @total_remains = @group.total
+        
+        if members.length > 0
+            total_money = @total_remains
+            common_money = total_money / members.length
+            
+            # common shared money
+            members.each do |m|
+                @current[m.tname] = common_money
+                @usage[m.tname] = 0
+            end
+            
+            if boards.length > 0
+                # board money
+                boards.each do |b, idx|
+                    if b.board_type == 'GROUP'
+                        members.each do |m|
+                            @current[m.tname] = @current[m.tname] - b.howmuch / members.length
+                            @usage[m.tname] = b.howmuch / members.length
+                        end
+                    
+                    
+                    elsif b.board_type == 'ONLY'
+                    
+                        @current[b.member.tname] = @current[b.member.tname] - b.howmuch
+                        @usage[b.member.tname] = @usage[b.member.tname] + b.howmuch
+                    
+                    
+                    elsif idx == boards.length
+                        @total_remains = b.remain
+                    end
+                    
+                end
+            end    
+        end
+       
     end
       
     def dashboard
@@ -17,7 +59,6 @@ class MoneygerController < ApplicationController
     def mymember
         m = Member.new
         m.tname = params[:tname]
-        m.tnumber = params[:tnumber]
         m.gg_id = params[:g_id]
         m.save
         redirect_to '/moneyger/index/' + params[:g_id]
@@ -57,14 +98,25 @@ class MoneygerController < ApplicationController
         p.howmuch = params[:howmuch]
         p.remain = group.total - params[:howmuch].to_i
         
-        group.total = p.remain # update total by remain
-        group.save
-        
         p.gg_id = group.id
         p.member_id = params[:member]
         p.save
         
         redirect_to '/moneyger/index/' + params[:gg_id]
     end
-  
+    def modify
+        @postmodify = Gg.find_by_id(params[:id])
+    
+    end
+
+    def updatem
+        one_post = Gg.find_by_id(params[:id])
+        one_post.gname = params[:new_gname]
+        one_post.leader = params[:new_leader]
+        one_post.account_number = params[:new_account_number]
+        one_post.total = params[:new_total]
+        one_post.save
+        
+        redirect_to '/'
+    end
 end
