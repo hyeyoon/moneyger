@@ -86,6 +86,7 @@
             <table class="table table-hover">
               <thead>
                 <tr>
+                  <th>+/-</th>
                   <th>언제?</th>
                   <th>누가?</th>
                   <th>어디에?</th>
@@ -97,14 +98,18 @@
               <tbody>
                 <% @group.boards.reverse.each do |board|%>
                   <tr>
-                    <td><%= board.date %></td>
                     <td> <% if board.board_type == 'ONLY' %>
                           <img src="/image/pigpig.png" style="width:22px; height:auto;">
-                          <% if board.member %>
-                            <%= board.member.tname %>
-                          <% else %>
-                            <span style="text-decoration: line-through;">삭제된 멤버</span>
-                          <% end %>
+                          <%else%>  
+                          <%end%></td>
+                    <td><%= board.date %></td>
+                    <td> <% if board.board_type == 'ONLY' %>
+                          <!--<img src="/image/pigpig.png" style="width:22px; height:auto;">-->
+                            <% if board.member %>
+                              <%= board.member.tname %>
+                            <% else %>
+                              <span style="text-decoration: line-through;">삭제된 멤버</span>
+                            <% end %>
                          <% else %>
                           팀원 전체
                         <% end %>
@@ -114,11 +119,13 @@
                     <td><%= board.remain %></td>
                   </tr>
                 <% end %>
+                <% if @group.boards.last %>
                 <tr>
-                  <td colspan="3" style="text-align: center;">총합</td>
-                  <td><%= @group.boards.sum(:howmuch).to_i %></td>
+                  <td colspan="4" style="text-align: center;">&nbsp;&nbsp;총합</td>
+                  <td><%= @group.boards.sum(:howmuch).to_i %>
                   <td><%= @group.boards.last.remain %></td>
                 </tr>  
+                <% end %>
               </tbody>
             </table>
         </div>
@@ -194,7 +201,7 @@
               팀원: <% @group.members.each do |m|%>
                     <p id="teammember">
                       <a href="/moneyger/delete_member/<%= m.id %>">
-                      <img src="/image/delete.png" class="memberdlt"></a><%= m.tname %> 
+                      <img src="/image/delete.png" id="memberdlt"></a><%= m.tname %> 
                     </p>
                     <%end%>
                  
