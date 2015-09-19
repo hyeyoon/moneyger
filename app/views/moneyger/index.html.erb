@@ -39,10 +39,16 @@
           <div class="col-sm-6 col-md-6 total">
             <div class="row marginmd" id="wholemoney">
               <div class="col-sm-4 col-md-4">
-                <img src="/image/teammoney.png" style="width: 100px; height: auto; margin-left: 80%;">
+                <img src="/image/teammoney.png" style="width: 100px; height: auto; margin-left: 40%;">
               </div>
               <div class="col-sm-8 col-md-8">
-                <h4 style="padding-left: 28%;">전체돈<br><font size="8" class="ftweight"><%= @group.total %></font>&nbsp;원</h4>
+                <h4 style="padding-left: 10%;">전체돈<br><font size="8" class="ftweight">
+                <% if @group.boards.all.empty? %>
+                  <%= number_to_currency(@group.total, :unit => "", :precision => 0) %>
+                <% else %>
+                  <%= number_to_currency(@group.boards.last.remain, :unit => "", :precision => 0) %>
+                <%end%>
+                </font>원</h4>
               </div>
             </div>
           </div> <!-- END 전체돈 -->        
@@ -54,7 +60,7 @@
                 <img src="/image/piggy.png" style="width: 100px; height: auto; margin-left: 20%;">
               </div>
               <div class="col-sm-8 col-md-8">
-                <h4>저금통<br><font size="8" class="ftweight"> 20000</font>&nbsp;원</h4>
+                <h4>저금통<br><font size="8" class="ftweight"><%= number_to_currency(@pig, :unit => "", :precision => 0) %></font>&nbsp;원</h4>
               </div>  
             </div>
           </div> <!-- END 저금통 -->
@@ -62,21 +68,21 @@
       </div> <!-- END line -->
 
     <!-- 멤버별 그래프 -->
-    <h4 style="margin-top: 5%;"><img src="/image/coin.png" style="width: 20px; height: auto;">&nbsp;&nbsp;멤버별 금액 보유 현황</h4> 
+    <h4 style="margin-top: 5%; margin-left: 4%;"><img src="/image/coin.png" style="width: 20px; height: auto;">&nbsp;&nbsp;멤버별 금액 보유 현황</h4> 
     <!--멤버 추가 버튼 -->  
     <button type="button" class="btn-class-1" data-toggle="modal" data-target="#addmembers">멤버추가</button>
     
     <!-- 그래프 부분 -->  
-    <div class="panel">
+    <div class="panel" style="margin-left: 4%; margin-right: 4%;">
       <div class="chart chartalign" style="margin-top: 40px; margin-bottom: 40px; margin-left: 30px;">
         <canvas id="gchart_current" width="630" height="400"></canvas>
       </div>
     </div>
     
-    <!-- 사용내역 표 -->   
-    <div class="panel panel-default">
+    <!-- 사용내역 표 -->
+    <h4 style="margin-top: 5%; margin-left: 4%;"><img src="/image/coin.png" style="width: 20px; height: auto;">&nbsp;&nbsp;사용 내역</h4>
+    <div class="panel panel-default" style="margin-left: 4%; margin-right: 4%;">
        <div class="panel-body">
-          <h3>사용 내역</h3> 
             <table class="table table-hover">
               <thead>
                 <tr>
@@ -89,34 +95,35 @@
               </thead>
               
               <tbody>
-                <% @group.boards.each do |board|%>
+                <% @group.boards.reverse.each do |board|%>
                   <tr>
                     <td><%= board.date %></td>
                     <td> <% if board.board_type == 'ONLY' %>
-                          <%= board.member.tname %>
+                          <img src="/image/pigpig.png" style="width:22px; height:auto;">
+                          <% if board.member %>
+                            <%= board.member.tname %>
+                          <% else %>
+                            <span style="text-decoration: line-through;">삭제된 멤버</span>
+                          <% end %>
                          <% else %>
-                        팀원 전체
+                          팀원 전체
                         <% end %>
                     </td>
-                    <td><%= board.id %></td>
+                    <td><%= board.content %></td>
                     <td><%= board.howmuch %></td>
                     <td><%= board.remain %></td>
                   </tr>
                 <% end %>
+                <tr>
+                  <td colspan="3" style="text-align: center;">총합</td>
+                  <td><%= @group.boards.sum(:howmuch).to_i %></td>
+                  <td><%= @group.boards.last.remain %></td>
+                </tr>  
               </tbody>
             </table>
         </div>
     </div>
     <!--END main -->
-    <!-- 멤버별 그래프 --> 
-    <h4><img src="/image/coin.png" style="width: 20px; height: auto;">&nbsp;&nbsp;멤버별 금액 사용 현황</h4>
-
-    <!-- 그래프 부분 -->  
-    <div class="panel">
-      <div class="chart chartalign" style="margin-top: 40px; margin-bottom: 40px; margin-left: 30px;">
-        <canvas id="gchart_usage" width="630" height="400"></canvas>
-      </div>
-    </div>
 
   </div><!-- end of container -->
 
@@ -138,19 +145,19 @@
               <div class="modal-body" style="padding-left: 10%; padding-right: 10%;">
               <div class="form-group">
                 <label>팀이름</label>
-                <input type="text" value="<%= @group.gname %>" name="new_gname" class="form-control">
+                <input type="text" value="<%= @group.gname %>" name="new_gname" class="form-control" required>
               </div>  
               <div class="form-group">
                 <label>총무</label>
-                <input type="text" value="<%= @group.leader %>" name="new_leader" class="form-control">
+                <input type="text" value="<%= @group.leader %>" name="new_leader" class="form-control" required>
                 </div>
                 <div class="form-group">
                 <label>계좌번호</label>
-               <input type="text" value="<%= @group.account_number %>" name="new_account_number" class="form-control">
+               <input type="text" value="<%= @group.account_number %>" name="new_account_number" class="form-control" required>
                 </div>
                 <div class="form-group">
                 <label>예치금</label>
-                <input type="text" value="<%= @group.total %>" name="new_total" class="form-control">
+                <input type="text" value="<%= @group.total %>" name="new_total" class="form-control" required>
                 </div>
              
             </div>
@@ -182,17 +189,19 @@
               <h4 class="modal-title" id="myModalLabel">멤버 편집</h4>
             </div>
             <!-- modal body 그룹 이름값 넣기 -->
+            <form action="/moneyger/mymember" type="POST">
             <div class="modal-body" style="padding-left: 10%; padding-right: 10%;">
-              팀원: <% @group.members.each do |m|%> <%= m.tname %> &nbsp;<%end%><br>
-              <form action="/moneyger/mymember" type="POST">
-  
-              
-              <div class="modal-body">
-              
-                  <input type="hidden" name="g_id" value="<%= @group.id%>">
+              팀원: <% @group.members.each do |m|%>
+                    <p id="teammember">
+                      <a href="/moneyger/delete_member/<%= m.id %>">
+                      <img src="/image/delete.png" class="memberdlt"></a><%= m.tname %> 
+                    </p>
+                    <%end%>
+                 
+                <input type="hidden" name="g_id" value="<%= @group.id%>">
               <div class="form-group">
                 <label>팀원이름</label>
-                <input type="text" name="tname" class="form-control">
+                <input type="text" name="tname" class="form-control" required>
               </div>  
             </div>
             
@@ -225,7 +234,7 @@
                 <input type="hidden" name="board_type" value="ONLY">
                 <div class="form-group">
                   <label>언제</label>
-                  <input type="text" name="date" class="form-control datepicker">
+                  <input type="text" name="date" class="form-control datepicker" required>
                 </div>
                 <div class="form-group">
                   <label>누가</label>
@@ -241,7 +250,7 @@
                 </div>
                 <div class="form-group">
                   <label>얼마나</label>
-                  <input type="text" name="howmuch" class="form-control">
+                  <input type="text" name="howmuch" class="form-control" required>
                 </div>
               </div>
               
@@ -284,7 +293,7 @@
                 </div>
                 <div class="form-group">
                   <label>얼마나</label>
-                  <input type="text" name="howmuch" class="form-control">
+                  <input type="text" name="howmuch" class="form-control" required>
                 </div>
               </div>
              
@@ -307,20 +316,20 @@
 <!-- 차트 데이터 -->
 <script>
 $(document).ready(function() {
-  <% if false %>
-  // var members_data = [
-  //   <% @group.members.each do |m| %>
-  //   {
-  //     id: m.id,
-  //     number: m.tnumber
-  //   },
-  //   <% end %>
-  // ]
-  <% end %>
-  
+  /**
+   * Number.prototype.format(n, x)
+   * 
+   * @param integer n: length of decimal
+   * @param integer x: length of sections
+   */
+  Number.prototype.format = function(n, x) {
+      var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+      return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+  };
   
   if(<%= @group.members.length %>) {
     var ctx_current = $('#gchart_current').get(0).getContext("2d");
+    
     var data_current = {
       labels: [<% @current.each do |key, value|%>"<%= key %>",<% end %>],
       datasets: [
@@ -336,9 +345,10 @@ $(document).ready(function() {
     };
     
     var currentChart = new Chart(ctx_current).RoundedBar(data_current, {
-      scaleBeginAtZero: false,
+      scaleLabel : "<%%= Number(value).format() + ' 원' %>",
+      scaleBeginAtZero: true,
     	scaleIntegersOnly: true,
-    	scaleFontSize: 15,
+    	scaleFontSize: 20,
     	animationSteps: 70,
       barStrokeWidth: 0,
       barValueSpacing : 20,
@@ -346,36 +356,14 @@ $(document).ready(function() {
       scaleShowHorizontalLines: false,
       barShowStroke : false,
     });
-    var ctx_usage = $('#gchart_usage').get(0).getContext("2d");
-    var data_usage = {
-      labels: [<% @usage.each do |key, value|%>"<%= key %>",<% end %>],
-      datasets: [
-          {
-              label: "<%= @group.gname %>",
-              fillColor: "rgba(255,182,0,1)",
-              strokeColor: "rgba(255,182,0,0.1)",
-              highlightFill: "rgba(255,182,0,0.5)",
-              highlightStroke: "rgba(255,182,0,0.5)",
-              data: [<% @usage.each do |key, value|%>"<%= value %>",<% end %>]
-          }
-        ]
-    };
-    var usageChart = new Chart(ctx_usage).RoundedBar(data_usage, {
-      scaleBeginAtZero: false,
-    	scaleIntegersOnly: true,
-    	scaleFontSize: 15,
-    	animationSteps: 70,
-      barStrokeWidth: 0,
-      barValueSpacing : 20,
-      scaleShowVerticalLines: false,
-      scaleShowHorizontalLines: false,
-      barShowStroke : false,
-    });
+    
   }
   
   $(".datepicker").datepicker();
   $('select').select2({
     width: 300
   });
+  
+  
 });
 </script>

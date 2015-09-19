@@ -33,6 +33,9 @@
                 <h5>총무: <%=g.leader%></h5>
                 <h5>계좌번호: <%=g.account_number%></h5>
                 <h5>예치금: <%=g.total%> 원</h5>
+              <!-- 삭제 -->
+              <a href="/moneyger/delete/<%= g.id %>" class="btn btn-default btn-delete" style="border-radius: 17px; margin-left: 53%;">삭제</a>
+              <!-- 열기 -->
               <a href="/moneyger/index/<%= g.id %>" class="btn btn-default btn-align" style="border-radius: 17px;">열기</a>
             </div>
           </div>
@@ -67,19 +70,19 @@
               <!-- 추가할 그룹 입력창 -->
               <div class="form-group">
                 <label>그룹 이름</label>
-                <input type="text" name="gname" class="form-control" maxlength="10" placeholder="그룹 이름(10자 이내)">
+                <input type="text" name="gname" class="form-control" maxlength="10" placeholder="그룹 이름(10자 이내)" required>
               </div>
               <div class="form-group">
                 <label>총무</label>
-                <input type="text" name="leader" class="form-control" placeholder="총무 이름">
+                <input type="text" name="leader" class="form-control" placeholder="총무 이름" required>
               </div>
               <div class="form-group">
                 <label>계좌 번호</label>
-                <input type="text" name="account_number" class="form-control" placeholder="은행 및 계좌번호">
+                <input type="text" name="account_number" class="form-control" placeholder="예: 우리 1234-234-234234" required>
               </div>
               <div class="form-group">
                 <label>예치금</label>
-                <input type="number" name="total" class="form-control" placeholder="예: 50000">
+                <input type="number" name="total" class="form-control" placeholder="예: 50000" required>
               </div>
             </div>
               <!-- 취소 버튼 -->

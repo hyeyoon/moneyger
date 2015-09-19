@@ -4,13 +4,22 @@ class MoneygerController < ApplicationController
     def index
         @group = Gg.find_by_id(params[:id])
         @g = Gg.where(user_id: current_user.id)
-          members = @group.members.all
+        members = @group.members.all
         boards = @group.boards.all
-            
+        
+        @pig = 0
+        boards.each do |b|    
+            if b.board_type == 'ONLY'
+                @pig += b.howmuch
+            end
+        end    
+        
         @current = {}
         @usage = {}
             
         @total_remains = @group.total
+        
+        @members = members
         
         if members.length > 0
             total_money = @total_remains
@@ -30,14 +39,9 @@ class MoneygerController < ApplicationController
                             @current[m.tname] = @current[m.tname] - b.howmuch / members.length
                             @usage[m.tname] = b.howmuch / members.length
                         end
-                    
-                    
-                    elsif b.board_type == 'ONLY'
-                    
+                    elsif b.board_type == 'ONLY' and b.member
                         @current[b.member.tname] = @current[b.member.tname] - b.howmuch
                         @usage[b.member.tname] = @usage[b.member.tname] + b.howmuch
-                    
-                    
                     elsif idx == boards.length
                         @total_remains = b.remain
                     end
@@ -95,23 +99,23 @@ class MoneygerController < ApplicationController
         p = Board.new
         p.date = params[:date]
         p.board_type = params[:board_type]
+        
+        
         p.content = params[:content]
         p.howmuch = params[:howmuch]
         
-        
-    
         if group.boards.all.empty?
-            p.remain = group.total - params[:howmuch].to_i
+           p.remain = group.total - params[:howmuch].to_i
         else
             p.remain = latest_board.remain - params[:howmuch].to_i
         end
-        
+     
         #p.remain = group.total - params[:howmuch].to_i
         #p.remain = latest_board.remain - params[:howmuch].to_i
         p.gg_id = group.id
         p.member_id = params[:member]
         p.save
-        
+       
         redirect_to '/moneyger/index/' + params[:gg_id]
     end
     def modify
@@ -129,4 +133,18 @@ class MoneygerController < ApplicationController
         
         redirect_to '/'
     end
+    
+    def delete
+        d_gg = Gg.find_by_id(params[:id]) # id -> group_id
+        d_gg.destroy
+        redirect_to '/'
+    end
+    
+    def delete_member
+        d_mm = Member.find_by_id(params[:id]) # id ->member_id
+        group_id = d_mm.gg_id
+        d_mm.destroy
+        redirect_to :controller => 'moneyger', :action => 'index', :id => group_id
+    end
+    
 end

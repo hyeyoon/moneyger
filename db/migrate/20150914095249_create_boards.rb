@@ -12,3 +12,4 @@ class CreateBoards < ActiveRecord::Migration
     end
   end
 end
+

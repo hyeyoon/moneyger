@@ -44,6 +44,15 @@ button {
     text-decoration: none;
 }
 
+.dropdown-menu {
+  border-radius: 5% !important;
+}
+
+.dropdown-menu>li>a:hover {
+  background-color: #ffc513 !important;
+  opacity: 0.8 !important;
+}
+
 .groupname {
     font-family: 'KoPub Dotum';
   	font-style: normal;
@@ -129,13 +138,23 @@ button {
 }
 
 .btn-align {
-  float: right;
+  
   background-color: #ffc513 !important;
   border: none !important;
 }
 
 .btn-align:hover {
   background-color: #ffb700 !important;
+}
+
+.btn-delete {
+  background-color: #f9f9f9;
+  border: 2px solid #ffb600;
+}
+
+.btn-delete:hover {
+  background-color:  #eee !important;
+  opacity: 0.7 !important;
 }
 
 #btn-whole {
@@ -192,19 +211,18 @@ button {
   width: 40px;
   text-align: center;
   font-size: 12px;
-  color: #fff;
-  background-color: #ffb600;
+  color: #675e54;
+  background-color: #f9f9f9;
   border-color: #eea236;
   display: inline-block;
   margin-bottom: 0;
   font-weight: 400;
   line-height: 1.42857143;
   text-align: center;
-  white-space: nowrap;
   vertical-align: middle;
   cursor: pointer;
   background-image: none;
-  border: 1px solid transparent;
+  border: 1px solid #ffb600;
   border-radius: 10px;
 }
 
@@ -213,10 +231,10 @@ button {
 }
 
 .btn-class-1 {
-  height: 33px;
+  height: 30px;
   width: 65px;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
   color: #fff;
   background-color: #ffb600;
   border-color: #eea236;
@@ -232,12 +250,20 @@ button {
   border: 1px solid transparent;
   border-radius: 17px;
   float: left;
-  margin-left: 25%;
-  margin-top: -4.7%;
+  margin-left: 28%;
+  margin-top: -4.5%;
 }
 
 .btn-class-1:hover {
   opacity: 0.8;
+}
+
+#teammember {
+  border: 2px solid #ffb600; 
+  border-radius: 12px; 
+  width: 75px;
+  height: 26px;
+  display: inline-block;
 }
 
 #wholemoney {
@@ -302,6 +328,12 @@ button {
   display: block;
 }
 
+.btn-signin:hover {
+  background-color: #675e54 !important;
+  opacity: 0.8 !important;
+  color: white !important;
+}
+
 .btn-default {
   border: 1px solid #ffc513 !important;
 }
@@ -341,13 +373,31 @@ button {
 }
 
 #gchart_current {
-  margin-left: 6%;
+  margin-left: 4%;
 }
 
 #gchart_usage {
-  margin-left: 6%;
+  margin-left: 4%;
 }
 
+#forgotpw {
+  color: #675e54;
+}
+
+#forgotpw:hover {
+  color: #675e54;
+}
+
+#memberdlt {
+  width: 15px; 
+  height:auto; 
+  margin-left: 5px; 
+  margin-right: 5px;
+}
+
+#memberdlt:hover {
+  opacity: 0.7;
+}
 
 /*.sidebar {
     position: fixed;
