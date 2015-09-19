@@ -3,7 +3,7 @@ class MoneygerController < ApplicationController
     
     def index
         @group = Gg.find_by_id(params[:id])
-        #@g = Gg.where(user_id: current_user.id)
+        @g = Gg.where(user_id: current_user.id)
           members = @group.members.all
         boards = @group.boards.all
             
@@ -91,13 +91,23 @@ class MoneygerController < ApplicationController
     def board
         group = Gg.find_by_id(params[:gg_id])
         
+        latest_board = Board.where(gg_id: params[:gg_id]).order(:id => :desc).take
         p = Board.new
         p.date = params[:date]
         p.board_type = params[:board_type]
         p.content = params[:content]
         p.howmuch = params[:howmuch]
-        p.remain = group.total - params[:howmuch].to_i
         
+        
+    
+        if group.boards.all.empty?
+            p.remain = group.total - params[:howmuch].to_i
+        else
+            p.remain = latest_board.remain - params[:howmuch].to_i
+        end
+        
+        #p.remain = group.total - params[:howmuch].to_i
+        #p.remain = latest_board.remain - params[:howmuch].to_i
         p.gg_id = group.id
         p.member_id = params[:member]
         p.save
